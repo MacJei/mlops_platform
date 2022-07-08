@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+  postgresql:
+    image: postgres:13.1
+    container_name: mlflow_db
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: mlflow-db
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgresql
+    restart: always
+
+  mlflow:
+    image: mlflow:latest
+    container_name: mlflow
+    ports:
+      - ${MLFLOW_PORT}:${MLFLOW_PORT}
+    depends_on:
+      - postgresql
+    volumes:
+      - /path/to/name.keytab:/path/to/name.keytab
+      - /etc/krb5.conf:/etc/krb5.conf 
+      - /var/lib/sss/pubconf/krb5.include.d:/var/lib/sss/pubconf/krb5.include.d
+      - /path/to/cloudera:/path/to/cloudera
+      - /usr/java:/usr/java
+      - /usr/lib/jvm:/usr/lib/jvm
+      - /etc/hadoop:/etc/hadoop
+      - /etc/alternatives/hadoop:/etc/alternatives/hadoop
+      - /etc/alternatives/hadoop-conf:/etc/alternatives/hadoop-conf
+      - /etc/alternatives/hadoop-fuse-dfs:/etc/alternatives/hadoop-fuse-dfs
+      - /etc/alternatives/hadoop-httpfs-conf:/etc/alternatives/hadoop-httpfs-conf
+      - /etc/alternatives/hadoop-kms-conf:/etc/alternatives/hadoop-kms-conf
+      - /etc/alternatives/java:/etc/alternatives/java
+      - /etc/alternatives/hive:/etc/alternatives/hive
+      - /etc/alternatives/spark-conf:/etc/alternatives/spark-conf 
+      - /etc/alternatives/spark-shell:/etc/alternatives/spark-shell
+      - /etc/alternatives/spark-submit:/etc/alternatives/spark-submit
+    environment:
+      DB_URI: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/mlflow-db
+      VIRTUAL_HOST: ${HOST}
+      VIRTUAL_PORT: ${MLFLOW_PORT}
+      ARTIFACT_PATH: ${ARTIFACT_PATH}
+      MLFLOW_KERBEROS_TICKET_CACHE: ${KRB_TICKET_CACHE}
+      MLFLOW_KERBEROS_TICKET_USER: ${KRB_TICKET_USER}
+      KRB_PRINCIPAL: ${KRB_PRINCIPAL}
+      KRB_KEYTAB: ${KRB_KEYTAB}
+      PATH: $PATH:/path/to/cloudera/parcels/CDH/bin
+      LD_LIBRARY_PATH: /path/to/cloudera/parcels/CDH/lib64:/path/to/cloudera/parcels/CDH/lib64/debug:/path/to/cloudera/parcels/CDH/lib/hadoop/lib/native:/path/to/cloudera/parcels/CDH/lib/hbase/lib/native:/path/to/cloudera/parcels/CDH/lib/impala/lib:/path/to/cloudera/parcels/CDH/lib/impala/lib/openssl:/path/to/cloudera/parcels/CDH/lib/impala/sbin-debug:/path/to/cloudera/parcels/CDH/lib/impala/sbin-retail:/path/to/cloudera/parcels/CDH/lib/impala-shell/lib/thrift/protocol
+    command: ./start.sh
+
+volumes:
+  db:
