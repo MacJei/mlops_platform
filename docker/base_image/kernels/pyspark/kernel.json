@@ -1,1 +1,22 @@
-1
+    {
+      "argv": [
+        "python3.7",
+        "-m",
+        "ipykernel_launcher",
+        "-f",
+        "{connection_file}"
+      ],
+      "display_name": "Python3.7 + Pyspark",
+      "language": "python",
+      "env": {
+        "PYSPARK_PYTHON": "/path/to/conda/bin/python",
+        "SPARK_HOME": "/path/to/cloudera/parcels/CDH/lib/spark",
+        "HADOOP_CONF_DIR": "/etc/hive/conf.cloudera.hive",
+        "HADOOP_CLIENT_OPTS": "-Xmx2147483648 -XX:MaxPermSize=512M -Djava.net.preferIPv4Stack=true",
+        "PYTHONPATH": "/path/to/cloudera/parcels/CDH/lib/spark/python/lib/py4j-0.10.7-src.zip:/path/to/cloudera/parcels/CDH/lib/spark/python/",
+        "PYTHONSTARTUP": "/path/to/cloudera/parcels/CDH/lib/spark/python/pyspark/shell.py",
+        "PYSPARK_SUBMIT_ARGS": " --master yarn --driver-memory 16g --executor-memory=4g --deploy-mode client --conf spark.port.maxRetries=50 --conf spark.submit.pyFiles=/home/jovyan/jars/mmlspark_2.11-0.18.1.jar --conf spark.jars=/home/jovyan/jars/mmlspark_2.11-0.18.1.jar --conf spark.sql.hive.convertMetastoreParquet=false --conf spark.sql.sources.partitionOverwriteMode=dynamic --conf hive.exec.dynamic.partition=true --conf hive.exec.dynamic.partition.mode=nonstrict pyspark-shell",
+        "PATH": "/path/to/miniconda3/bin:/path/to/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/java/bin:/path/to/cloudera/parcels/CDH/bin",
+        "LD_LIBRARY_PATH": "/path/to/cloudera/parcels/CDH/lib64:/path/to/cloudera/parcels/CDH/lib64/debug:/path/to/cloudera/parcels/CDH/lib/hadoop/lib/native:/path/to/cloudera/parcels/CDH/lib/hbase/lib/native:/path/to/cloudera/parcels/CDH/lib/impala/lib:/path/to/cloudera/parcels/CDH/lib/impala/lib/openssl:/path/to/cloudera/parcels/CDH/lib/impala/sbin-debug:/path/to/cloudera/parcels/CDH/lib/impala/sbin-retail:/path/to/cloudera/parcels/CDH/lib/impala-shell/lib/thrift/protocol:/usr/lib/oracle/21/client64/lib:"
+      }
+    }
