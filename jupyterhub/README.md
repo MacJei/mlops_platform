@@ -1,7 +1,7 @@
-## Conda 
+## Conda <img src="https://github.com/MacJei/mlops_platform/blob/main/images/file_type_conda_icon_130674.svg" width="64">
 Менеджер пакетов и система управления виртуальными окружениями.
 
-## JupyterHub 
+## JupyterHub <img src="https://github.com/MacJei/mlops_platform/blob/main/images/jupyter_logo_icon_169452.svg" width="64">
 Многопользовательский сервер, управляющий однопользовательскими Jupyter Notebook. 
 
 -----------
