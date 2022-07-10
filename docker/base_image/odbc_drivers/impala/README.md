@@ -1,1 +1,1 @@
-Сюда загружаем clouderaimpalaodbc_2.6.5.1005-2_amd64.deb или какой-то иной версии.
+Сюда загружаем [clouderaimpalaodbc_2.6.5.1005-2_amd64.deb](https://downloads.cloudera.com/connectors/ClouderaImpala_ODBC_2.6.5.1005/Debian/clouderaimpalaodbc_2.6.5.1005-2_amd64.deb) или какой-то иной версии.
