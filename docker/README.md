@@ -59,10 +59,43 @@ a.	sudo base=https://github.com/docker/machine/releases/download/v0.16.0 \
 b.  docker-machine version
 ```
 
-9. 
+9. Установка docker-registry и настройка приватного Docker-репозитория:
+
+`docker pull registry`
+
+[Настраиваем приватный Docker-репозиторий](https://habr.com/ru/post/320884/)
+
+[Настройка частного реестра Docker](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-18-04-ru)
+
+Чтобы к нему подключиться нужно на серверах с docker добавить информацию о docker-registry:
+```
+a.  cd /etc/docker
+b.  sudo touch daemon.json
+c.  sudo chmod 777 /etc/docker/daemon.json
+```
+
+и добавить в этот файл следующий код и перезапустить docker:
+```
+a. {
+    "insecure-registries" : [ "DNS_or_IP:5000" ]
+  }
+b.  sudo systemctl restart docker
+```
+
+Ссылки для docker-registry:
+
+https://*DNS_or_IP*:5000/v2/node-exporter/tags/list
+
+https://*DNS_or_IP*:5000/v2/_catalog
+
+Пример использования docker-registry:
+```
+docker tag base_image DNS_or_IP:5000/base_image
+docker push DNS_or_IP:5000/base_image
+docker pull DNS_or_IP:5000/base_image
+```
 
 На сервере создаем группу docker, которой выдаем права на выполнение следующих команд docker: 
 ```diff, events, history, images, info, inspect, logs, port, ps, search, stats, top, version, build, commit, export, import, load, login, logout, pull, push, save, rmi, tag, run(*), start(*), stop(*), rm(*)```
 
 `(*)`  - на команды, отмеченные `(*)` для безопасности права давать только через скрипты-обертки.
-
