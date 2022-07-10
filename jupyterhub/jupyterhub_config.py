@@ -6,6 +6,8 @@ from tornado import gen
 from tornado.concurrent import run_on_executor
 from subprocess import Popen, PIPE
 
+from tornado.httpclient import AsyncHTTPClient
+
 try:
     import pamela
 except Exception as e:
@@ -74,6 +76,38 @@ class KDBAuthenticator(PAMAuthenticator):
 
 c.JupyterHub.authenticator_class = KDBAuthenticator
 
+#  If any errors are encountered when opening/closing PAM sessions, this is
+#  automatically set to False.
+c.PAMAuthenticator.open_sessions = False
+
+# Configure JupyterHub to use the curl backend for making HTTP requests,
+# rather than the pure-python implementations. The default one starts
+# being too slow to make a large number of requests to the proxy API
+# at the rate required.
+AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
+
+# Do not shut down user pods when hub is restarted
+c.JupyterHub.cleanup_servers = False
+
+# Check that the proxy has routes appropriately setup
+c.JupyterHub.last_activity_interval = 60
+
+# Don't wait at all before redirecting a spawning user to the progress page
+c.JupyterHub.tornado_settings = {
+    "slow_spawn_timeout": 0,
+}
+
+c.DockerSpawner.args = [f'--NotebookApp.allow_origin="*"']
+c.JupyterHub.tornado_settings = {
+    'headers': {
+        'Access-Control-Allow-Origin': "*",
+    },
+}
+c.DockerSpawner.args = [f'--NotebookApp.ip="0.0.0.0"']
+c.DockerSpawner.args = [f'--NotebookApp.allow_remote_access=True']
+c.DockerSpawner.args = [f'--NotebookApp.open_browser=False']
+c.DockerSpawner.args = [f'--LabApp.open_browser=False']
+
 #SSL certificates for https
 c.JupyterHub.ssl_key = '/etc/jupyterhub/ssl/private.key'
 c.JupyterHub.ssl_cert = '/etc/jupyterhub/ssl/private.cer'
@@ -97,6 +131,8 @@ c.ConfigurableHTTPProxy.api_url = 'http://DNS:9001'
 # Proxy config
 c.JupyterHub.hub_ip = '0.0.0.0'
 c.JupyterHub.hub_port = 8081
+# Should be set to a token for authenticating communication with the proxy
+c.ConfigurableHTTPProxy.auth_token = "CONFIGPROXY_AUTH_TOKEN"
 
 # Config the docker containers to find the hub
 network_name = "host"
@@ -106,32 +142,37 @@ c.DockerSpawner.network_name = network_name
 # Pass the network name as argument to spawned containers
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
 
-# Explicitly set notebook directory because we'll be mounting a host volume to
-# it.  Most jupyter/docker-stacks *-notebook images run the Notebook server as
-# user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
-# We follow the same convention.
-notebook_dir = '/home/jovyan/work'
-c.DockerSpawner.notebook_dir = notebook_dir
-
-# Mount the real user's Docker volume on the host to the notebook user's
-# notebook directory in the container
-username = '{safe_username}'
-
 c.DockerSpawner.volumes = {
-	'/home/{safe_username}/work': {'bind': notebook_dir, 'mode': 'Z'}, 
+	'/home/{safe_username}/work': {'bind': '/home/{safe_username}', 'mode': 'Z'}, 
 	'/shared/jupyterhub': {'bind': '/shared/jupyterhub', 'mode': 'Z'}, 
 	'/etc/krb5.conf': {'bind': '/etc/krb5.conf', 'mode': 'ro'},
 	'/var/lib/sss/pubconf/krb5.include.d': {'bind': '/var/lib/sss/pubconf/krb5.include.d', 'mode': 'ro'},
+	'/etc/alternatives/hadoop': {'bind': '/etc/alternatives/hadoop', 'mode': 'ro'},
 	'/etc/alternatives/hadoop-conf': {'bind': '/etc/alternatives/hadoop-conf', 'mode': 'ro'},
+	'/etc/alternatives/hadoop-fuse-dfs': {'bind': '/etc/alternatives/hadoop-fuse-dfs', 'mode': 'ro'},
+	'/etc/alternatives/hadoop-httpfs-conf': {'bind': '/etc/alternatives/hadoop-httpfs-conf', 'mode': 'ro'},
+	'/etc/alternatives/hadoop-kms-conf': {'bind': '/etc/alternatives/hadoop-kms-conf', 'mode': 'ro'},
+	'/etc/alternatives/java': {'bind': '/etc/alternatives/java', 'mode': 'ro'},
 	'/etc/alternatives/hive': {'bind': '/etc/alternatives/hive', 'mode': 'ro'},
 	'/etc/alternatives/spark-conf': {'bind': '/etc/alternatives/spark-conf', 'mode': 'ro'},
+	'/etc/alternatives/spark-shell': {'bind': '/etc/alternatives/spark-shell', 'mode': 'ro'},
+	'/etc/alternatives/spark-submit': {'bind': '/etc/alternatives/spark-submit', 'mode': 'ro'},
 	'/etc/hadoop': {'bind': '/etc/hadoop', 'mode': 'ro'},
 	'/etc/hive': {'bind': '/etc/hive', 'mode': 'ro'},
 	'/etc/spark': {'bind': '/etc/spark', 'mode': 'ro'},
-	'/path/to/cloudera/etc': {'bind': '/path/to/cloudera/etc', 'mode': 'ro'},
-	'/path/to/cloudera/parcel-cache': {'bind': '/path/to/cloudera/parcel-cache', 'mode': 'ro'},
-	'/path/to/cloudera/parcels': {'bind': '/path/to/cloudera/parcels', 'mode': 'ro'},
-	'/path/to/cloudera/security': {'bind': '/path/to/cloudera/security', 'mode': 'ro'},
+	'/path/to/cloudera': {'bind': '/path/to/cloudera', 'mode': 'ro'},
+	'/path/to/oracle': {'bind': '/path/to/oracle', 'mode': 'ro'},
+	'/usr/lib/oracle/21/client64/lib': {'bind': '/usr/lib/oracle/21/client64/lib', 'mode': 'ro'},
+}
+
+c.DockerSpawner.environment = {'LD_LIBRARY_PATH': '/path/to/cloudera/parcels/CDH/lib64:/path/to/cloudera/parcels/CDH/lib64/debug:/path/to/cloudera/parcels/CDH/lib/hadoop/lib/native:/path/to/cloudera/parcels/CDH/lib/hbase/lib/native:/path/to/cloudera/parcels/CDH/lib/impala/lib:/path/to/cloudera/parcels/CDH/lib/impala/lib/openssl:/path/to/cloudera/parcels/CDH/lib/impala/sbin-debug:/path/to/cloudera/parcels/CDH/lib/impala/sbin-retail:/path/to/cloudera/parcels/CDH/lib/impala-shell/lib/thrift/protocol:/usr/lib/oracle/21/client64/lib',
+}
+
+c.DockerSpawner.extra_create_kwargs = {'user': 'root'}
+# Root access
+c.DockerSpawner.environment = {
+  'GRANT_SUDO': '1',
+  'UID': '0', 
 }
 
 # Remove containers once they are stopped
@@ -141,6 +182,10 @@ c.DockerSpawner.remove_containers = True
 c.DockerSpawner.debug = True
 
 c.Authenticator.admin_users = {'admin_login'}
+c.JupyterHub.admin_access = True
+
+# JupyterLab default
+c.Spawner.default_url = '/lab'
 
 def prespawn_hook(spawner):
 	username = spawner.user.name
