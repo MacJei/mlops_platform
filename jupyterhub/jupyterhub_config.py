@@ -22,7 +22,7 @@ class KDBAuthenticator(PAMAuthenticator):
 		self.log.info('Authenticating: ' + user)
 		pwrd = data['password']
 
-		realm = 'OPEN.RU'
+		realm = 'YANDEX.RU' # заменить на свой REALM
 		kinit = '/usr/bin/kinit'
 		krbcc = '/tmp/krb5cc_%s' % (user,) # This path is on the shared volume
 		kuser = '%s@%s' % (user, realm)
@@ -160,8 +160,8 @@ c.DockerSpawner.volumes = {
 	'/etc/hadoop': {'bind': '/etc/hadoop', 'mode': 'ro'},
 	'/etc/hive': {'bind': '/etc/hive', 'mode': 'ro'},
 	'/etc/spark': {'bind': '/etc/spark', 'mode': 'ro'},
-	'/path/to/cloudera': {'bind': '/path/to/cloudera', 'mode': 'ro'},
-	'/path/to/oracle': {'bind': '/path/to/oracle', 'mode': 'ro'},
+	'/path/to/cloudera': {'bind': '/path/to/cloudera', 'mode': 'ro'}, # ваши пути к директории cloudera
+	'/path/to/oracle': {'bind': '/path/to/oracle', 'mode': 'ro'}, # драйвера для работы с oracle ojdbc8.jar
 	'/usr/lib/oracle/21/client64/lib': {'bind': '/usr/lib/oracle/21/client64/lib', 'mode': 'ro'},
 }
 
