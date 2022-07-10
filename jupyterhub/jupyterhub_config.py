@@ -166,7 +166,7 @@ c.DockerSpawner.volumes = {
 }
 
 c.DockerSpawner.environment = {'LD_LIBRARY_PATH': '/path/to/cloudera/parcels/CDH/lib64:/path/to/cloudera/parcels/CDH/lib64/debug:/path/to/cloudera/parcels/CDH/lib/hadoop/lib/native:/path/to/cloudera/parcels/CDH/lib/hbase/lib/native:/path/to/cloudera/parcels/CDH/lib/impala/lib:/path/to/cloudera/parcels/CDH/lib/impala/lib/openssl:/path/to/cloudera/parcels/CDH/lib/impala/sbin-debug:/path/to/cloudera/parcels/CDH/lib/impala/sbin-retail:/path/to/cloudera/parcels/CDH/lib/impala-shell/lib/thrift/protocol:/usr/lib/oracle/21/client64/lib',
-}
+} # /path/to заменить на свои пути, данная строка нужна для работы с mlflow
 
 c.DockerSpawner.extra_create_kwargs = {'user': 'root'}
 # Root access
@@ -181,7 +181,7 @@ c.DockerSpawner.remove_containers = True
 # For debugging arguments passed to spawned containers
 c.DockerSpawner.debug = True
 
-c.Authenticator.admin_users = {'admin_login'}
+c.Authenticator.admin_users = {'admin_login'} # админский логин
 c.JupyterHub.admin_access = True
 
 # JupyterLab default
