@@ -5,7 +5,7 @@
 Многопользовательский сервер, управляющий однопользовательскими Jupyter Notebook. 
 
 -----------
-#### Создать виртуальное окружения Conda:
+### Создать виртуальное окружения Conda:
 
 •	Название окружения – jupyterhubenv
 
@@ -16,7 +16,7 @@
 Запускается по адресу https://DNS_or_IP:8000
 
 -----------
-#### Установка Conda
+### Установка Conda
 __1.__	Загрузить инсталлятор https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 __2.__	Сравнить хэши, выполнив команду 
@@ -40,7 +40,7 @@ __5.__	Закрыть и открыть терминал, либо ввести 
 `source ~/.bashrc`
 
 -----------
-#### Установка JupyterHub
+### Установка JupyterHub
 
 __1.__	Создать окружение conda 
 
@@ -84,7 +84,7 @@ sudo chown :jupyterhub -R "/shared/jupyterhub/"
 ```
 
 -----------
-#### Настройка компонент
+### Настройка компонент
 __1.__	Активировать виртуальное окружение conda
 
 `conda activate jupyterhubenv`
@@ -97,7 +97,7 @@ __3.__	Заменить файл */path/to/miniconda3/envs/jupyterhubenv/lib/pyt
 
 __4.__	Положить в директорию */path/to/miniconda3/envs/jupyterhubenv* файл **jupyterhub_config.py** также из репозитория
 
-#### Запуск и остановка JupyterHub
+### Запуск и остановка JupyterHub
 ##### Запуск
 __1.__	Перейти в директорию /path/to/miniconda3/envs/jupyterhubenv, отредактировать файл **jupyterhub_config.py**, добавив в конфиг *c.Authenticator.admin_users* имя пользователя
 
@@ -118,13 +118,13 @@ kill $(ps -ef | grep "jupyter" | awk '{print $2}')
 kill -9 key
 ```
 
-##### Остановка
+#### Остановка
 __1.__	Залогиниться в web-интерфейс JupyterHub ( https://DNS_or_IP:8000 ) под пользователем-администратором
 
 __2.__	Нажмите Control Panel -> Admin -> Shutdown Hub
 
 
-## Взаимодействие компонент
+### Взаимодействие компонент
 -----------
 #### Когда пользователь вводит логин/пароль в JupyterHub, то 
 
