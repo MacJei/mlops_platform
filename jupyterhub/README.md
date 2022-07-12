@@ -31,7 +31,7 @@ __4.__	Следовать инструкциям инсталлятора
 
 a.	Принять лицензионное соглашение
 
-b.	Указать директорию для установки /opt/miniconda3
+b.	Указать директорию для установки /path/to/miniconda3
 
 c.	На вопрос “Do you wish the installer to initialize Anaconda3 by running conda init?” ответить “yes”
 
