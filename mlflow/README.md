@@ -42,7 +42,7 @@
 
 2.	перейти в директорию: 
 
-```cd /docker/mlflow/```
+```cd /path/to/mlflow/```
 
 3. отредактируйте файлы: **.env и docker-compose.yaml**, замените в них /path/to на ваши пути, login и @REALM на данные вашей системы аутентификации Kerberos
 
