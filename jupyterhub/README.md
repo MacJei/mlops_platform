@@ -9,9 +9,9 @@
 
 •	Название окружения – jupyterhubenv
 
-•	Путь к окружению - /opt/miniconda3/envs/jupyterhubenv
+•	Путь к окружению - /path/to/miniconda3/envs/jupyterhubenv
 
-•	Файл конфигурации - /opt/miniconda3/envs/jupyterhubenv/jupyterhub_config.py
+•	Файл конфигурации - /path/to/miniconda3/envs/jupyterhubenv/jupyterhub_config.py
 
 Запускается по адресу https://DNS_or_IP:8000
 
@@ -93,15 +93,15 @@ __2.__	Установить DockerSpawner (требуется для работ�
 
 `pip install dockerspawner`
 
-__3.__	Заменить файл */opt/miniconda3/envs/jupyterhubenv/lib/python3.7/site-packages/dockerspawner/dockerspawner.py* файлом **dockerspawner.py** из репозитория
+__3.__	Заменить файл */path/to/miniconda3/envs/jupyterhubenv/lib/python3.7/site-packages/dockerspawner/dockerspawner.py* файлом **dockerspawner.py** из репозитория
 
-__4.__	Положить в директорию */opt/miniconda3/envs/jupyterhubenv* файл **jupyterhub_config.py** также из репозитория
+__4.__	Положить в директорию */path/to/miniconda3/envs/jupyterhubenv* файл **jupyterhub_config.py** также из репозитория
 
 #### Запуск и остановка JupyterHub
 ##### Запуск
-__1.__	Перейти в директорию /opt/miniconda3/envs/jupyterhubenv, отредактировать файл **jupyterhub_config.py**, добавив в конфиг *c.Authenticator.admin_users* имя пользователя
+__1.__	Перейти в директорию /path/to/miniconda3/envs/jupyterhubenv, отредактировать файл **jupyterhub_config.py**, добавив в конфиг *c.Authenticator.admin_users* имя пользователя
 
-`cd /opt/miniconda3/envs/jupyterhubenv/`
+`cd /path/to/miniconda3/envs/jupyterhubenv/`
 
 __2.__ Активировать окружение 
 
