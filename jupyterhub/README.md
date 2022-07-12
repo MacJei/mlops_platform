@@ -17,17 +17,17 @@
 
 -----------
 #### Установка Conda
-1.	Загрузить инсталлятор https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+__1.__	Загрузить инсталлятор https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-2.	Сравнить хэши, выполнив команду 
+__2.__	Сравнить хэши, выполнив команду 
 
 `sha256sum path/to/file`
 
-3.	Выполнить команду 
+__3.__	Выполнить команду 
 
 `bash Miniconda3-latest-Linux-x86_64.sh`
 
-4.	Следовать инструкциям инсталлятора 
+__4.__	Следовать инструкциям инсталлятора 
 
 a.	Принять лицензионное соглашение
 
@@ -35,36 +35,36 @@ b.	Указать директорию для установки /opt/miniconda3
 
 c.	На вопрос “Do you wish the installer to initialize Anaconda3 by running conda init?” ответить “yes”
 
-5.	Закрыть и открыть терминал, либо ввести команду 
+__5.__	Закрыть и открыть терминал, либо ввести команду 
 
 `source ~/.bashrc`
 
 -----------
 #### Установка JupyterHub
 
-1.	Создать окружение conda 
+__1.__	Создать окружение conda 
 
 `conda create -n jupyterhubenv python=3.7`
 
-2.	Активировать окружение 
+__2.__	Активировать окружение 
 
 `conda activate jupyterhubenv`
 
-3.	Установить JupyterHub 
+__3.__	Установить JupyterHub 
 
 `conda install -c conda-forge jupyterhub`
 
-4. Установить необходимые вам библиотеки
+__4.__ Установить необходимые вам библиотеки
 
 `pip install -r /path/to/requirements.txt`
 
-5. Протестируйте вашу установку. Если они установлены, эти команды должны возвращать содержимое справки пакетов:
+__5.__ Протестируйте вашу установку. Если они установлены, эти команды должны возвращать содержимое справки пакетов:
 ```
 jupyterhub -h
 configurable-http-proxy -h
 ```
 
-6. Создаем директорию для SSL сертификатов для работы jupyterhub
+__6.__ Создаем директорию для SSL сертификатов для работы jupyterhub
 ```bash
 mkdir -p /etc/jupyterhub/ssl/
 chmod 700 "/etc/jupyterhub/ssl/"
@@ -76,7 +76,7 @@ sudo chmod 600 name.cer
 sudo chmod 600 name.key
 ```
 
-7. Создаем общую директорию для обмена файлами среди пользователей
+__7.__ Создаем общую директорию для обмена файлами среди пользователей
 ```bash
 sudo mkdir -p "/shared/jupyterhub"
 sudo chmod 774 "/shared/jupyterhub/"
@@ -85,33 +85,33 @@ sudo chown :jupyterhub -R "/shared/jupyterhub/"
 
 -----------
 #### Настройка компонент
-1.	Активировать виртуальное окружение conda
+__1.__	Активировать виртуальное окружение conda
 
 `conda activate jupyterhubenv`
 
-2.	Установить DockerSpawner (требуется для работы JupyterHub с docker-контейнерами) 
+__2.__	Установить DockerSpawner (требуется для работы JupyterHub с docker-контейнерами) 
 
 `pip install dockerspawner`
 
-3.	Заменить файл */opt/miniconda3/envs/jupyterhubenv/lib/python3.7/site-packages/dockerspawner/dockerspawner.py* файлом **dockerspawner.py** из репозитория
+__3.__	Заменить файл */opt/miniconda3/envs/jupyterhubenv/lib/python3.7/site-packages/dockerspawner/dockerspawner.py* файлом **dockerspawner.py** из репозитория
 
-4.	Положить в директорию */opt/miniconda3/envs/jupyterhubenv* файл **jupyterhub_config.py** также из репозитория
+__4.__	Положить в директорию */opt/miniconda3/envs/jupyterhubenv* файл **jupyterhub_config.py** также из репозитория
 
 #### Запуск и остановка JupyterHub
 ##### Запуск
-1.	Перейти в директорию /opt/miniconda3/envs/jupyterhubenv, отредактировать файл **jupyterhub_config.py**, добавив в конфиг *c.Authenticator.admin_users* имя пользователя
+__1.__	Перейти в директорию /opt/miniconda3/envs/jupyterhubenv, отредактировать файл **jupyterhub_config.py**, добавив в конфиг *c.Authenticator.admin_users* имя пользователя
 
 `cd /opt/miniconda3/envs/jupyterhubenv/`
 
-3. Активировать окружение 
+__2.__ Активировать окружение 
 
 `conda activate jupyterhubenv`
 
-4. Запустить jupyterhub командой 
+__3.__ Запустить jupyterhub командой 
 
 `nohup jupyterhub > jupyterhub.log &`
 
-5. Если не перезапустилась, то значит зависла сессия каких-то процессов, и надо их отключить вручную.
+__4.__ Если не перезапустилась, то значит зависла сессия каких-то процессов, и надо их отключить вручную.
 ```bash
 ps -aux | grep jupyter
 kill $(ps -ef | grep "jupyter" | awk '{print $2}')
@@ -119,17 +119,17 @@ kill -9 key
 ```
 
 ##### Остановка
-1.	Залогиниться в web-интерфейс JupyterHub ( https://DNS_or_IP:8000 ) под пользователем-администратором
+__1.__	Залогиниться в web-интерфейс JupyterHub ( https://DNS_or_IP:8000 ) под пользователем-администратором
 
-2.	Нажмите Control Panel -> Admin -> Shutdown Hub
+__2.__	Нажмите Control Panel -> Admin -> Shutdown Hub
 
 
 ## Взаимодействие компонент
 -----------
 #### Когда пользователь вводит логин/пароль в JupyterHub, то 
 
-1.	происходит его авторизация на сервере https://DNS_or_IP
+__1.__	происходит его авторизация на сервере https://DNS_or_IP
 
-2.	далее автоматически выполняется авторизация в керберос с помощью команды kinit и переданного пользователем пароля. Требует наличия на сервере учетки с доменной авторизацией.
+__2.__	далее автоматически выполняется авторизация в керберос с помощью команды kinit и переданного пользователем пароля. Требует наличия на сервере учетки с доменной авторизацией.
 
-3.	Запускается Docker-контейнер с установленным внутри него Jupyter Notebook. При запуске контейнера пользователь может выбрать на основе какого образа запускать контейнер. Если контейнер запущен из базового образа, то внутри него можно выбирать ядро выполнения Jupyter – стандартное, либо pyspark с заданным лимитом driver memory.
+__3.__	Запускается Docker-контейнер с установленным внутри него Jupyter Notebook. При запуске контейнера пользователь может выбрать на основе какого образа запускать контейнер. Если контейнер запущен из базового образа, то внутри него можно выбирать ядро выполнения Jupyter – стандартное, либо pyspark с заданным лимитом driver memory.
