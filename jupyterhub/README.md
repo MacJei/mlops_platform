@@ -1,8 +1,18 @@
+# JupyterHub <img src="https://github.com/MacJei/mlops_platform/blob/main/images/jupyter_logo_icon_169452.svg" width="100">
+Многопользовательский сервер, управляющий однопользовательскими Jupyter Notebook / lab. 
+
+### Схема JupyterHub
+<img src="https://github.com/MacJei/mlops_platform/blob/main/images/jhub-fluxogram.jpeg" width="600">
+
 ## Conda <img src="https://github.com/MacJei/mlops_platform/blob/main/images/file_type_conda_icon_130674.svg" width="64">
 Менеджер пакетов и система управления виртуальными окружениями.
 
-## JupyterHub <img src="https://github.com/MacJei/mlops_platform/blob/main/images/jupyter_logo_icon_169452.svg" width="64">
-Многопользовательский сервер, управляющий однопользовательскими Jupyter Notebook. 
+```
+├── README.md
+├── dockerspawner.py  <- конфигурация для запуска контейнеров
+├── jupyterhub_config.py <- файл с настройками работы сервиса
+└── requirements.txt
+```    
 
 -----------
 ### Создать виртуальное окружения Conda:
@@ -133,3 +143,9 @@ __1.__	происходит его авторизация на сервере ht
 __2.__	далее автоматически выполняется авторизация в керберос с помощью команды kinit и переданного пользователем пароля. Требует наличия на сервере учетки с доменной авторизацией.
 
 __3.__	Запускается Docker-контейнер с установленным внутри него Jupyter Notebook. При запуске контейнера пользователь может выбрать на основе какого образа запускать контейнер. Если контейнер запущен из базового образа, то внутри него можно выбирать ядро выполнения Jupyter – стандартное, либо pyspark с заданным лимитом driver memory.
+
+### Ссылки
+-----------
+[JupyterHub Doc](https://jupyterhub.readthedocs.io/en/stable/index.html)
+
+[Как использовать JupyterHub на 100% на примере ML школы DataGym и компании Lamoda](https://www.youtube.com/watch?v=T2xHM_96pXc)
