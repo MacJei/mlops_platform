@@ -153,7 +153,7 @@ b. Права на файлы в директории должны быть сл
 ```bash
 chmod 644 -R /etc/airflow_ssl/*
 ```
-c. Добавляем ссылки на ssl ключи в файл airflow.cfg
+c. Добавляем ссылки на ssl ключи в файл **airflow.cfg**
 ```bash
 # Paths to the SSL certificate and key for the web server. When both are
 # provided SSL will be enabled. This does not change the web server port.
@@ -163,7 +163,7 @@ web_server_ssl_cert = /etc/airflow_ssl/cert_name.cer
 # provided SSL will be enabled. This does not change the web server port.
 web_server_ssl_key = /etc/airflow_ssl/key_name.key
 ```
-d. Добавляем строку по импорту директории в файл docker-compose.yaml airflow-webserver:
+d. Добавляем строку по импорту директории в файл **docker-compose.yaml** airflow-webserver:
 ```yaml
 …
 volumes:
