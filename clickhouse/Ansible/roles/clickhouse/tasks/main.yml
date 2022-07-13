@@ -1,0 +1,66 @@
+---
+#
+# Установка Clickhouse
+#
+
+# Добавление Clickhouse apt key
+
+- name: Add Clickhouse apt key
+  apt_key:
+   keyserver: keyserver.ubuntu.com
+   id: E0C56BD4
+   state: present
+
+# Добавление Clickhouse apt repo.
+
+- name: Adding Clickhouse repo
+  apt_repository:
+   repo: deb https://repo.clickhouse.tech/deb/stable/ main/
+   state: present
+
+# Установка Clickhouse
+
+- name: Install Clickhouse
+  apt:
+   #name: "{{ item }}"
+   name: [clickhouse-server, clickhouse-client]
+   update_cache: yes
+#  with_items:
+#   - clickhouse-server
+#   - clickhouse-client
+   
+# Конфигурация хоста
+
+- name: Updating the config file to allow outside access
+  replace:
+   destfile: /etc/clickhouse-server/config.xml
+   regexp: '<listen_host>127.0.0.1</listen_host>'
+   replace: '<listen_host>0.0.0.0</listen_host>'
+ 
+# Конфигурация порта
+
+- name: Updating the port in config file 
+  replace:
+   destfile: /etc/clickhouse-server/config.xml
+   regexp: '<tcp_port>9000</tcp_port>'
+   replace: '<tcp_port>9090</tcp_port>'
+   backup: yes
+
+# Cluster config
+- name: cluster1 config (see block in the templates)
+  blockinfile:
+    block: "{{ lookup('file', 'cluster1-clickhouse-config') }}"
+    marker:          <!-- {mark} cluster1 ANSIBLE MANAGED BLOCK -->
+    insertafter: \<remote_servers incl\=
+    dest: /etc/clickhouse-server/config.xml
+    backup: yes
+  notify:
+  - restart clickhouse
+
+
+# запуск Clickhouse
+#
+- name: Starting Clickhouse
+  service:
+   name: clickhouse-server
+   state: started
