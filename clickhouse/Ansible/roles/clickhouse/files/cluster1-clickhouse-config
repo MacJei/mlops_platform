@@ -1,0 +1,14 @@
+        <cluster1>
+            <shard>
+                <replica>
+                    <host>instance-1</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <shard>
+                <replica>
+                    <host>instance-2</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </cluster1>
