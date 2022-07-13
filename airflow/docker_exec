@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo "Использование: $0 имя_инстанса"
+    exit 1
+fi
+
+cmd="docker exec -it $1_airflow_airflow-webserver_1 bash "
+
+echo "Выполняем команду:" 
+echo ${cmd}
+echo 
+${cmd}
