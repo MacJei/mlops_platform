@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo "Использование: $0 имя_инстанса"
+    exit 1
+fi
+
+cmd="docker-compose --project-name $1_airflow --project-directory . -f docker-compose.yaml --env-file ./instances/$1/.env up -d"
+
+echo "Выполняем команду:" 
+echo ${cmd}
+echo 
+${cmd}
