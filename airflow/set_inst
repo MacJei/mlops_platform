@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Настройка доступа к файлам для инстанса $1"
+
+if [ $# -ne 1 ]
+then
+    echo "Использование: $0 имя_инстанса"
+    exit 1
+fi
+
+mkdir log/$1
+chown airflow:root -R log/$1
+chmod 775 -R log/$1
+
+# Установка разрешений, в т.ч. и на скрытые файлы (например, .env)
+chown root:airflow instances/$1/ instances/$1/* instances/$1/.[!.]*
+chmod 755 instances/$1/ instances/$1/* instances/$1/.[!.]*
+
+chown root:airflow -R instances/$1/cfg/
+chmod 755 instances/$1/cfg/*
+
+chmod 640 instances/$1/cfg/webserver_config.py
+chmod 777 instances/$1/dags instances/$1/plugins
+
+echo "Завершено"
