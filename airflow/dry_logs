@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]] || [[ $1 -le 0 ]]
+then
+    echo "Использование: $0 глубина_сохранения_логов"
+    echo "Все логи, созданные ранее глубины_сохранения_логов, будут удалены"
+    echo "Параметр глубины должен быть больше нуля"
+    exit 1
+fi
+
+save_deep=$1
+
+cmd="find ./log -type f -mtime +${save_deep} -print -delete"
+echo "Удаляем логи командой:"
+echo ${cmd}
+${cmd}
+echo
+
+cmd="find ./log -type d -empty -print -delete"
+echo "Удаляем пустые каталоги командой:"
+echo ${cmd}
+${cmd}
+echo
+
+echo "Чистка логов завершена"
