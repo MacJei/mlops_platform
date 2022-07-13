@@ -1,0 +1,10 @@
+---
+#
+# Playbook для установки Clickhouse
+#
+- hosts: clickhouse-nodes
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  roles:
+  - { role: clickhouse }
