@@ -1,0 +1,73 @@
+#global: 
+#  external_labels: 
+#    origin_prometheus: prometheus
+
+scrape_configs:
+  #- job_name: 'prometheus'
+  #  scrape_interval: 5s
+  #  static_configs:
+  #  - targets: ['IP:9090']
+  - job_name: 'node-exporter'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'    
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'    
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'    
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP cluster'
+        nodename: 'DNS'           
+        
+  - job_name: 'node-exporter_dmp'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP servers'
+        nodename: 'DNS'     
+    - targets: ['IP:9100']
+      labels:
+        group: 'DMP servers'
+        nodename: 'DNS'
+
+  - job_name: 'jupyterhub'
+    scrape_interval: 5s
+    metrics_path: '/hub/metrics'
+    static_configs:
+      - targets: ['IP:8081']
+        labels:
+          group: 'DMP JupyterHub'
+          nodename: 'DNS'
+      - targets: ['IP:8081']
+        labels:
+          group: 'DMP JupyterHub'
+          nodename: 'DNS'
+      - targets: ['IP:8081']
+        labels:
+          group: 'DMP JupyterHub'
+          nodename: 'DNS'                
