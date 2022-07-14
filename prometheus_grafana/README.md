@@ -1,20 +1,20 @@
-# Grafana
+# <img src="https://github.com/MacJei/mlops_platform/blob/main/images/grafana_logo_icon_171049.png" width="200">
 - свободная программная система визуализации данных, ориентированная на данные систем ИТ-мониторинга.
 
-# Prometheus
+# <img src="https://github.com/MacJei/mlops_platform/blob/main/images/file_type_prometheus_icon_130229.png" width="100"> Prometheus 
 - это бесплатное программное приложение, используемое для мониторинга событий и оповещения.
 
 
 # Установка
-Для её установки был скачан репозиторий с гитлаба vegasbrianc/prometheus в /path/to/
+1. Создаете директорию `monitoring_grafana` и добавляете туда файлы, директории из данного репозитория:
+```
+mkdir monitoring_grafana
+cd monitoring_grafana
+```
 
-Далее в нём используется следующий docker-compose файл:
- 
-А также в /path/to/grafana/prometheus:
- 
-И запускается docker-compose
-cd /home/sys_cvm_airflow/grafana
-docker-compose up -d
+2. Запускаете сервисы:
+
+`docker-compose up -d`
 
 WEB UI:
 
